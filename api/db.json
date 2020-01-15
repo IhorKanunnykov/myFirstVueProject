@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "email": "kanun41k41@gmail.com",
+      "password": "$2a$10$SL1hWZLslgvKoP65Q9ydauu20nvdOszRu23r/Kvmkp2qHsAi7nWK.",
+      "name": "Ihor",
+      "phone": "12121212",
+      "age": "24",
+      "city": "Torez",
+      "id": 1
+    },
+    {
+      "email": "vas@gmail.com",
+      "password": "$2a$10$zTxoEI979BZvkoc7UBOoEeD2YJzTny7.4EL513OPPM.kPijgcmFn6",
+      "name": "Vasya",
+      "phone": "121121",
+      "age": "29",
+      "city": "Kharkiv",
+      "id": 2
+    },
+    {
+      "email": "ivan@gmail.com",
+      "password": "$2a$10$atfiiC9b.OGO8DC10mRiEuwhpDEvjSC60fuiWAh3oOJdVv2btWkLu",
+      "name": "Ivan",
+      "phone": "1212121",
+      "age": "18",
+      "city": "Chuguiv",
+      "id": 3
+    },
+    {
+      "email": "petya@feef.ru",
+      "password": "$2a$10$PywxJCZ9B7t7GTzxf18tlediXMiq3Bwu0g4Xiyvm0nHZOpyVBfYDi",
+      "name": "Petya",
+      "phone": "111111111",
+      "city": "Dnepr",
+      "age": "22",
+      "id": 4
+    }
+  ],
+  "posts": [],
+  "comments": [
+    {
+      "comment": "efefef",
+      "id": 1
+    },
+    {
+      "userId": 1,
+      "comment": "sdsds",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "comment": "qqqqqqqqqqqqqqqq",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "comment": "wefwefwef",
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "comment": "пмваппа",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "comment": "ываываывафываыца",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "comment": "ываыапввввввввввввввввввв",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "comment": "вввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываывавввввввввваываываыва",
+      "id": 8
+    },
+    {
+      "userId": 1,
+      "comment": "впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап впавап ",
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "comment": "1",
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "comment": "1",
+      "id": 11
+    }
+  ]
+}
