@@ -2,14 +2,19 @@
   <!-- </TheHeader> -->
   <div class="container">
     <!-- *********************************************post********************************************************** -->
-    <div class="row" v-for="user of users" :key="user.id">
+    <div class="row" v-for="post of posts" :key="post.id">
       <div class="col-lg-9 post">
         <div class="icon">
           <i>
-            df
+            {{ post.users }}
           </i>
-          <nuxt-link :to="{ name: 'user', params: { id: user.id } }" exact>
-            <strong>{{ user.name }}</strong>
+          <nuxt-link
+            v-for="userOfPost of post.users"
+            :key="userOfPost.id"
+            :to="{ name: 'user', params: { id: user.id } }"
+            exact
+          >
+            <strong>{{ userOfPost.name }}</strong>
           </nuxt-link>
           <!-- добавь фигурные скобки выше! -->
         </div>
@@ -21,12 +26,11 @@
             Open post!
           </button>
           <span> <i class="fa fa-comments" aria-hidden="true"></i> 5</span>
-
-          <!-- ************************************modal************************************************* -->
         </div>
         <!-- добавь фигурные скобки выше! -->
       </div>
     </div>
+    <!-- *********************************************post end********************************************************** -->
 
     <!-- ************************************modal******************************************** -->
 
@@ -87,8 +91,7 @@
         </b-button>
       </template>
     </b-modal>
-
-    <!-- *********************************************post********************************************************** -->
+    <!-- ************************************modal end************************************************* -->
 
     <!-- <div class="row" v-for="user of users" :key="user.id">
       <div class="col-lg-9 post">
@@ -112,24 +115,32 @@ export default {
   data: () => ({
     comments:{
       userId: 1,
+      postId: 1,
       comment:''
     }
   }),
   computed:{
     ...mapGetters ({
       users:'users/users',
-      myComments:'comments/comments'
+      myComments:'comments/comments',
+      posts:'posts/posts'
     })
    },
+      async fetch ({ store }){
+    await store.dispatch('users/loadUsers')
+    
+  },
    
-
+async fetch ({ store }){
+    await store.dispatch('posts/loadPosts')
+  },
 // async fetch ({ store }){
 //     await store.dispatch('comments/loadComments')
     
 //   },
-    async fetch ({ store }){
-    await store.dispatch('users/loadUsers')
-  },
+
+ 
+  
     
  methods: {
    ...mapActions({

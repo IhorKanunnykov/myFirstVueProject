@@ -14,6 +14,7 @@ export const actions = {
         const users = await this.$axios.$get('/users', {
             params: {
                 _embed: 'comments'
+
             }
         })
         commit('setUsers', users)
