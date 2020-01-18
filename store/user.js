@@ -1,29 +1,29 @@
 export const state = () => ({
-    users: []
+    user: []
 })
 
 export const getters = {
-    users(state) {
-        return state.users
+    user(state) {
+        return state.user
     }
 }
 
 
 export const actions = {
     async loadUser({ commit }) {//тут подгружаю сервер
-        const users = await this.$axios.$get('/users', {
+        const user = await this.$axios.$get(`/users/`, {
             params: {
-                _embed: 'comments'
+                _embed: 'posts',
             }
         })
-        commit('setUser', users)
+        commit('setUser', user)
     }//первый аргумент- название нужной мутации!
 }
 
 export const mutations = {
-    setUser(state, users) {//тут установливаю загруженные данные
+    setUser(state, user) {//тут установливаю загруженные данные
         //с сервера в мой state - users строка 1  2
         //в users я передаю commit
-        state.users = users
+        state.user = user
     }
 }

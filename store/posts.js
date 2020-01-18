@@ -5,6 +5,9 @@ export const state = () => ({
 export const getters = {
     posts(state) {
         return state.posts
+    },
+    postById(state) {
+        return (id) => state.posts.find(p => p.id === id)
     }
 }
 
@@ -13,8 +16,9 @@ export const actions = {
     async loadPosts({ commit }) {//тут подгружаю сервер
         const posts = await this.$axios.$get('/posts', {
             params: {
-                _embed: 'users',
                 _embed: 'comments',
+                // _embed: 'comments',
+                _expand: 'user'
 
             }
         })

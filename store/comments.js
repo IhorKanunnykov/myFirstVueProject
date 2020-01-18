@@ -11,7 +11,11 @@ export const getters = {
 
 export const actions = {
     async loadComments({ commit }) {//тут подгружаю сервер
-        const comments = await this.$axios.$get('/comments')
+        const comments = await this.$axios.$get('/comments', {
+            params: {
+                _expand: 'user'
+            }
+        })
         commit('setComments', comments)
     },//первый аргумент- название нужной мутации!
     async addComment({ commit }, comment) {

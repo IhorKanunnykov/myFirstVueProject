@@ -13,8 +13,7 @@ export const actions = {
     async loadUsers({ commit }) {//тут подгружаю сервер
         const users = await this.$axios.$get('/users', {
             params: {
-                _embed: 'comments'
-
+                _embed: 'posts'
             }
         })
         commit('setUsers', users)

@@ -6,15 +6,10 @@
       <div class="col-lg-9 post">
         <div class="icon">
           <i>
-            {{ post.users }}
+            icon
           </i>
-          <nuxt-link
-            v-for="userOfPost of post.users"
-            :key="userOfPost.id"
-            :to="{ name: 'user', params: { id: user.id } }"
-            exact
-          >
-            <strong>{{ userOfPost.name }}</strong>
+          <nuxt-link :to="{ name: 'user', params: { id: post.user.id } }" exact>
+            <strong>{{ post.user.name }}</strong>
           </nuxt-link>
           <!-- добавь фигурные скобки выше! -->
         </div>
@@ -22,10 +17,11 @@
           <img class="post-card" src="../assets/img/login.jpg" alt="img" />
         </div>
         <div class="comment-post">
-          <button class="button-post" @click="openPost">
+          <button class="button-post" @click="openPost(post.id)">
             Open post!
           </button>
           <span> <i class="fa fa-comments" aria-hidden="true"></i> 5</span>
+          <!-- суда количество комментов в посте -->
         </div>
         <!-- добавь фигурные скобки выше! -->
       </div>
@@ -41,18 +37,18 @@
         </div>
         <div class="col-lg-5 ">
           <div class="modal-comments">
-            тут при добавления комментариев добавь сво-во отвечающее за макс
-            количество символов в строке иначе будет пизда комментариев добавь
-            сво-во отвечающее за макс количество символов в строке иначе будет
-            пизда комментариев добавь сво-во
+            2-отрисовка комментов в постах страниц user 3-поиск 4-отрисовка
+            контента авторизованного юзера в profile 4.1- внесение изменений в
+            авторизованного юзера в profile 4.2- добавление постов со страници
+            profile 5- красивый скролл
 
-            <div v-for="user of users" :key="user.id">
-              <strong>{{ user.name }}</strong>
+            <div v-if="currentPost">
               <div
                 class="user-comment"
-                v-for="comment of user.comments"
+                v-for="comment of currentPost.comments"
                 :key="comment.id"
               >
+                {{ comment.userId }}
                 {{ comment.comment }}
               </div>
             </div>
@@ -113,9 +109,10 @@ export default {
   //   },
 
   data: () => ({
+    currentPost: null,
     comments:{
-      userId: 1,
-      postId: 1,
+      userId: 2,
+      postId: 2,
       comment:''
     }
   }),
@@ -123,13 +120,11 @@ export default {
     ...mapGetters ({
       users:'users/users',
       myComments:'comments/comments',
-      posts:'posts/posts'
+      posts:'posts/posts',
+      
     })
    },
-      async fetch ({ store }){
-    await store.dispatch('users/loadUsers')
-    
-  },
+   
    
 async fetch ({ store }){
     await store.dispatch('posts/loadPosts')
@@ -138,6 +133,10 @@ async fetch ({ store }){
 //     await store.dispatch('comments/loadComments')
     
 //   },
+  //  async fetch ({ store }){
+  //   await store.dispatch('users/loadUsers')
+    
+  // },
 
  
   
@@ -146,9 +145,10 @@ async fetch ({ store }){
    ...mapActions({
      addComment: 'comments/addComment'
    }),
-   openPost(){
-    //  суда запрос о данных конкретного поста
-     this.$bvModal.show('modal-scoped')
+   openPost(id){    
+    this.currentPost = this.$store.getters['posts/postById'](id)
+    this.$bvModal.show('modal-scoped')
+     
    },
    async onPublish(){
      await this.addComment(this.comments)

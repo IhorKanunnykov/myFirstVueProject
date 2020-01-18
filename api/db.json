@@ -42,7 +42,29 @@
       "userId": 1,
       "commentId": 1,
       "img": "test",
+      "description": "some description",
       "id": 1
+    },
+    {
+      "userId": 2,
+      "commentId": 1,
+      "img": "ghj",
+      "description": "some description",
+      "id": 2
+    },
+    {
+      "userId": 3,
+      "commentId": 1,
+      "img": "ghj",
+      "description": "some description",
+      "id": 3
+    },
+    {
+      "userId": 2,
+      "commentId": 1,
+      "img": "ghj",
+      "description": "some description",
+      "id": 4
     }
   ],
   "comments": [
@@ -51,6 +73,30 @@
       "postId": 1,
       "comment": "test",
       "id": 1
+    },
+    {
+      "userId": 1,
+      "postId": 1,
+      "comment": "fghj",
+      "id": 2
+    },
+    {
+      "userId": 2,
+      "postId": 1,
+      "comment": "hv",
+      "id": 3
+    },
+    {
+      "userId": 2,
+      "postId": 1,
+      "comment": "ывыва",
+      "id": 4
+    },
+    {
+      "userId": 2,
+      "postId": 2,
+      "comment": "dsds",
+      "id": 5
     }
   ]
 }
