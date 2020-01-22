@@ -114,6 +114,7 @@
            } catch (e) {
              console.log(e.response)
            }
+           this.$router.push("/home")
          }
         }
     }

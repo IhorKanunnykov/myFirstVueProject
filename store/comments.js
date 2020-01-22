@@ -35,6 +35,6 @@ export const mutations = {
         state.comments = comments
     },
     addComment(state, comment) {
-        state.comments.push(comment)
+        state.comments.unshift(comment)
     }
 }

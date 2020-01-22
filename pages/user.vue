@@ -19,7 +19,7 @@
     <div class="col-lg-4 post-user" v-for="post of user.posts" :key="post.id">
       <div class="img-post-user">
         <img
-          @click="openPost"
+          @click="openPost(post.id)"
           class="img-post-card-user"
           src="../assets/img/1234.jpg"
           alt="img"
@@ -39,7 +39,15 @@
         <div class="col-lg-5 ">
           <div class="modal-comments">
             тут вопросик об отрисовке комментария
-            <div>{{ user.comments }}</div>
+            <div v-if="currentPost">
+              <div
+                class="user-comment"
+                v-for="comment of currentPost.comments"
+                :key="comment.id"
+              >
+                {{ comment.comment }}
+              </div>
+            </div>
           </div>
           <!-- __________________________________________________ -->
           <div class="form-comment">
@@ -90,33 +98,37 @@ export default {
   computed:{
     ...mapGetters ({
       myComments:'comments/comments',
+      posts:'posts/posts'
     })
    },
   async asyncData ({ $axios, params }) {
-        let user = {}
-        try{
-            user = await $axios.$get(`/users/${params.id}`, {
-            params: {
-                _embed: 'posts',
-                
-            }
-        })
-        } catch (e) {
+    let user = {}
+    try{
+      user = await $axios.$get(`/users/${params.id}`, {
+        params: {
+          _embed: 'posts',
+        }  
+      })
+    } catch (e) {
             console.log(e)
-         }
-         
-   return { user }
-
+    }
+    return { user }
     },
     methods: {
-       ...mapActions({
-     addComment: 'comments/addComment'
-   }),
-    openPost(){
-     this.$bvModal.show('modal-scoped')
-   },
-   async onPublish(){
-     await this.addComment(this.comments)
+    ...mapActions({
+      addComment: 'comments/addComment',
+      loadPosts: 'posts/loadPosts'
+    }),
+    openPost(id){
+      this.currentPost = this.$store.getters['posts/postById'](id)
+      this.$bvModal.show('modal-scoped')
+    },
+    async onPublish({$axios}){
+      this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+      await this.addComment(this.comments)
+      this.comments.comment = ''
+      await this.loadPosts()
+      this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
    }
  }
 }

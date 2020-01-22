@@ -35,6 +35,15 @@
       "city": "Dnepr",
       "age": "22",
       "id": 4
+    },
+    {
+      "email": "gena@gmail.com",
+      "password": "$2a$10$9j0e/0zPBxCnqwZW0OW9n.iST0M.KMT/0Ah/JG8sh.T6aKazqnd/i",
+      "name": "Gena",
+      "phone": "12345",
+      "city": "Dnepr",
+      "age": "43",
+      "id": 5
     }
   ],
   "posts": [
@@ -65,6 +74,30 @@
       "img": "ghj",
       "description": "some description",
       "id": 4
+    },
+    {
+      "userId": 1,
+      "img": null,
+      "description": "fgh",
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "img": null,
+      "description": "from ihor",
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "img": null,
+      "description": "huh",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "img": null,
+      "description": "123",
+      "id": 8
     }
   ],
   "comments": [
@@ -91,12 +124,6 @@
       "postId": 1,
       "comment": "ывыва",
       "id": 4
-    },
-    {
-      "userId": 2,
-      "postId": 2,
-      "comment": "dsds",
-      "id": 5
     }
   ]
 }

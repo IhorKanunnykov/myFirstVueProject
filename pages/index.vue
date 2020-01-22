@@ -17,7 +17,7 @@
           <img class="post-card" src="../assets/img/login.jpg" alt="img" />
         </div>
         <div class="comment-post">
-          <button class="button-post" @click="openPost(post.id)">
+          <button class="button-post" @click.prevent="openPost(post.id)">
             Open post!
           </button>
           <span> <i class="fa fa-comments" aria-hidden="true"></i> 5</span>
@@ -37,15 +37,15 @@
         </div>
         <div class="col-lg-5 ">
           <div class="modal-comments">
-            2-отрисовка комментов в постах страниц user 3-поиск 4-отрисовка
+            1-привязка коммента к юзеру 1.2-привязка postId к комментариям
+            строка 109 2-вывод коммента без перезагрузки 3-поиск 4-отрисовка
             контента авторизованного юзера в profile 4.1- внесение изменений в
-            авторизованного юзера в profile 4.2- добавление постов со страници
-            profile 5- красивый скролл
+            авторизованного юзера в profile 5- красивый скролл
 
             <div v-if="currentPost">
               <div
                 class="user-comment"
-                v-for="comment of currentPost.comments"
+                v-for="comment in currentPost.comments"
                 :key="comment.id"
               >
                 {{ comment.userId }}
@@ -101,18 +101,11 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 export default {
-  // props:{
-  //       user:{
-  //           type: Object,
-  //           required: true
-  //       }
-  //   },
-
   data: () => ({
     currentPost: null,
     comments:{
       userId: 2,
-      postId: 2,
+      postId: 1,
       comment:''
     }
   }),
@@ -121,41 +114,37 @@ export default {
       users:'users/users',
       myComments:'comments/comments',
       posts:'posts/posts',
-      
     })
    },
-   
-   
-async fetch ({ store }){
+  async fetch ({ store }){
     await store.dispatch('posts/loadPosts')
   },
 // async fetch ({ store }){
 //     await store.dispatch('comments/loadComments')
-    
 //   },
   //  async fetch ({ store }){
   //   await store.dispatch('users/loadUsers')
     
   // },
-
+  methods: {
+    ...mapActions({
+      addComment: 'comments/addComment',
+      loadPosts: 'posts/loadPosts'
+    }),
+    openPost(id){    
+      this.currentPost = this.$store.getters['posts/postById'](id)
+      this.$bvModal.show('modal-scoped')
+    },
+    async onPublish({$axios}){
+      this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+      await this.addComment(this.comments)
+      // this.currentPost.comments = await this.$axios.$get(`comments/${this.currentPost.id}`)
+      await this.loadPosts()
+      this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
+      this.comments.comment = ''
+    },
+  },
  
-  
-    
- methods: {
-   ...mapActions({
-     addComment: 'comments/addComment'
-   }),
-   openPost(id){    
-    this.currentPost = this.$store.getters['posts/postById'](id)
-    this.$bvModal.show('modal-scoped')
-     
-   },
-   async onPublish(){
-     await this.addComment(this.comments)
-   }
-   
- }
-
 }
 </script>
 

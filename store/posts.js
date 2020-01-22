@@ -23,13 +23,22 @@ export const actions = {
             }
         })
         commit('setPosts', posts)
-    }//первый аргумент- название нужной мутации!
+    },//первый аргумент- название нужной мутации!
+    async publishPost({ commit }, post) {
+        const newpost = await this.$axios.post('/posts', post)
+        commit('publishPost', newpost)
+    }
 }
+
+
 
 export const mutations = {
     setPosts(state, posts) {//тут установливаю загруженные данные
         //с сервера в мой state - users строка 1  2
         //в users я передаю commit
         state.posts = posts
+    },
+    publishPost(state, post) {
+        state.posts.push(post)
     }
 }

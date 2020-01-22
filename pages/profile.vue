@@ -80,6 +80,17 @@
                   >
                   </b-form-input>
                 </b-form-group>
+                <b-form-group label="Avatar:" label-for="avatar">
+                  <b-form-file
+                    id="Avatar"
+                    v-model="form.avatar"
+                    :state="Boolean(file)"
+                    placeholder="Choose a file or drop it here..."
+                    drop-placeholder="Drop file here..."
+                    accept="image/jpeg, image/png, image/gif"
+                  ></b-form-file>
+                </b-form-group>
+
                 <b-button
                   type="submit"
                   class="btn-block"
@@ -106,12 +117,11 @@
           <button class="add-post" @click="openModalAddPost">Add post!</button>
           <!-- ***********************modal addPost************************ -->
           <b-modal id="addPost" title="Hey, post me!">
-            <b-form @submit.prevent="" class="b-form-comment">
-              <!-- добавь submit.prevent,допиши метод -->
+            <b-form @submit.prevent="onPublishPost" class="b-form-comment">
               <p class="my-2">Here you can add photos and comments.</p>
               <div class="b-form-file">
                 <b-form-file
-                  v-model="post.file"
+                  v-model="post.img"
                   :state="Boolean(file)"
                   placeholder="Choose a file or drop it here..."
                   drop-placeholder="Drop file here..."
@@ -181,30 +191,21 @@
         </div>
         <div class="col-lg-5 ">
           <div class="modal-comments">
-            тут при добавления комментариев добавь сво-во отвечающее за макс
-            количество символов в строке иначе будет пизда комментариев добавь
-            сво-во отвечающее за макс количество символов в строке иначе будет
-            пизда комментариев добавь сво-во отвечающее за макс количество
-            символов в строке иначе будет пизда комментариев добавь сво-во
-            отвечающее за макс количество символов в строке иначе будет пизда
-            комментариев добавь сво-во отвечающее за макс количество символов в
-            строке иначе будет пизда комментариев добавь сво-во отвечающее за
-            макс количество символов в строке иначе будет пизда комментариев
-            добавь сво-во отвечающее за макс количество символов в строке иначе
-            будет пизда комментариев добавь сво-во отвечающее за макс количество
-            символов в строке иначе будет пизда комментариев добавь сво-во
-            отвечающее за макс количество символов в строке иначе будет пизда
-            комментариев добавь сво-во отвечающее за макс количество символов в
-            строке иначе будет пизда комментариев добавь сво-во отвечающее за
-            макс количество символов в строке иначе будет пизда комментариев
-            добавь сво-во отвечающее за макс количество символов в строке иначе
-            будет пизда комментариев добавь сво-во отвечающее за макс количество
-            символов в строке иначе будет пизда
+            <div v-if="currentPost">
+              <div
+                class="user-comment"
+                v-for="comment of currentPost.comments"
+                :key="comment.id"
+              >
+                {{ comment.comment }}
+              </div>
+            </div>
           </div>
           <!-- __________________________________________________ -->
           <div class="form-comment">
-            <b-form @submit.prevent="" class="b-form-comment">
+            <b-form @submit.prevent="onPublish" class="b-form-comment">
               <b-form-textarea
+                v-model="comments.comment"
                 class="form-textarea-add-post"
                 id="textarea-no-resize"
                 placeholder="Fixed height textarea"
@@ -235,28 +236,37 @@
 </template>
 
 <script>
+import { mapGetters,mapActions } from 'vuex'
 export default {
-    name: 'Profile',
-    data: () => ({
-          form: {
-            name: '',
-            password: '',
-            email: '',
-            phone: '',
-            city: '',
-            age: ''
-          },
-          post: {
-            file: null,
-            "description": ""
-          },
-           comments:{
-            userId: 2,
-            postId: 1,
-            comment:''
-          }
-          
-        }),
+  name: 'Profile',
+  data: () => ({
+    currentPost: null,
+    form: {
+      name: '',
+      password: '',
+      email: '',
+      phone: '',
+      city: '',
+      age: '',
+      avatar: null
+    },
+    post: {
+      userId: 1,
+      img: null,
+      description: ''
+    },
+    comments:{
+      userId: 2,
+      postId: 1,
+      comment:''
+    }
+  }),
+  computed:{
+    ...mapGetters ({
+      myComments:'comments/comments',
+      posts:'posts/posts',
+    })
+  },
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //тут нужно переделать запрос,когда научимся получить залогининого
     //юзера,нужно запрос перенести в store и написать методы для
@@ -264,17 +274,23 @@ export default {
     // для редактирования полей я добавил дату form, далее нужно добавить асинхронные
     // функции для пост или пут запроса на изменение данных залогининого юзера
        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    async asyncData ({ $axios }) {
-        let users = []
-        try{
-            users = await $axios.$get('/users')
-        } catch (e) {
-            console.log(e)
-         }
+  async asyncData ({ $axios }) {
+    let users = {}
+    try{
+      users = await $axios.$get('/users')
+    } catch (e) {
+      console.log(e)
+    }
    return { users }
- },
- methods: {
-    openPost(){
+  },
+  methods: {
+    ...mapActions({
+     addComment: 'comments/addComment',
+     publishPost: 'posts/publishPost',
+     loadPosts: 'posts/loadPosts'
+    }),
+    openPost(id){
+      this.currentPost = this.$store.getters['posts/postById'](id)
       this.$bvModal.show('modal-scoped')
     },
     openModalRedact(){
@@ -282,6 +298,18 @@ export default {
     },
     openModalAddPost(){
       this.$bvModal.show('addPost')
+    },
+    async onPublish(){
+      this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+      await this.addComment(this.comments)
+      this.comments.comment = ''
+      await this.loadPosts()
+      this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
+
+    },
+    async onPublishPost(){
+      await this.publishPost(this.post)
+      this.post.description = ''
     }
   }
  
