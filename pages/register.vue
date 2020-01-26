@@ -84,40 +84,38 @@
 </template>
 
 <script>
-    export default {
-        name: 'Register',
-        auth: false,
-        middleware: ['login'],
-        layout: 'empty',
-        data: () => ({
-          form: {
-            name: '',
-            password: '',
-            email: '',
-            phone: '',
-            city: '',
-            age: ''
-          }
-          
-        }),
-        methods: {
-         async onSubmit () {
-           try{
-            await this.$axios.post('/register', this.form)
-            await this.$auth.loginWith('local', {
-              data: {
-                email: this.form.email,
-                password: this.form.password
-                }
-            })
-
-           } catch (e) {
+  export default {
+    name: 'Register',
+    auth: false,
+    middleware: ['login'],
+    layout: 'empty',
+    data: () => ({
+      form: {
+        name: '',
+        password: '',
+        email: '',
+        phone: '',
+        city: '',
+        age: ''
+      } 
+    }),
+    methods: {
+      async onSubmit () {
+        try{
+          await this.$axios.post('/register', this.form)
+          await this.$auth.loginWith('local', {
+            data: {
+              email: this.form.email,
+              password: this.form.password
+            }
+          })
+        } catch (e) {
              console.log(e.response)
-           }
-           this.$router.push("/home")
-         }
         }
+        this.$router.push("/home")
+      }
     }
+  }
 </script>
 
 <style scoped lang="scss">

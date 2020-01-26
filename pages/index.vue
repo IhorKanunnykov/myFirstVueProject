@@ -6,12 +6,20 @@
       <div class="col-lg-9 post">
         <div class="icon">
           <i>
-            icon
+            <nuxt-link
+              :to="{ name: 'user', params: { id: post.user.id } }"
+              exact
+            >
+              <img src="../assets/img/login.jpg" />
+            </nuxt-link>
           </i>
-          <nuxt-link :to="{ name: 'user', params: { id: post.user.id } }" exact>
+          <nuxt-link
+            :to="{ name: 'user', params: { id: post.user.id } }"
+            exact
+            class="nuxt-link"
+          >
             <strong>{{ post.user.name }}</strong>
           </nuxt-link>
-          <!-- добавь фигурные скобки выше! -->
         </div>
         <div class="img-post">
           <img class="post-card" src="../assets/img/login.jpg" alt="img" />
@@ -23,7 +31,6 @@
           <span> <i class="fa fa-comments" aria-hidden="true"></i> 5</span>
           <!-- суда количество комментов в посте -->
         </div>
-        <!-- добавь фигурные скобки выше! -->
       </div>
     </div>
     <!-- *********************************************post end********************************************************** -->
@@ -37,11 +44,6 @@
         </div>
         <div class="col-lg-5 ">
           <div class="modal-comments">
-            1-привязка коммента к юзеру 1.2-привязка postId к комментариям
-            строка 109 2-вывод коммента без перезагрузки 3-поиск 4-отрисовка
-            контента авторизованного юзера в profile 4.1- внесение изменений в
-            авторизованного юзера в profile 5- красивый скролл
-
             <div v-if="currentPost">
               <div
                 class="user-comment"
@@ -58,7 +60,10 @@
           </div>
           <!-- __________________________________________________ -->
           <div class="form-comment">
-            <b-form @submit.prevent="onPublish" class="b-form-comment">
+            <b-form
+              @submit.prevent="onPublish(currentPost.id)"
+              class="b-form-comment"
+            >
               <b-form-textarea
                 v-model="comments.comment"
                 class="form-textarea"
@@ -82,19 +87,12 @@
         </div>
       </div>
       <template v-slot:modal-footer="{ ok, cancel, hide }">
-        <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+        <b-button size="sm" variant="outline-secondary" @click="hide()">
           Close
         </b-button>
       </template>
     </b-modal>
     <!-- ************************************modal end************************************************* -->
-
-    <!-- <div class="row" v-for="user of users" :key="user.id">
-      <div class="col-lg-9 post">
-        <div style="background:blue;">{{ user.name }}</div>
-        <div>{{ user.email }}</div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -112,43 +110,46 @@ export default {
   computed:{
     ...mapGetters ({
       users:'users/users',
-      myComments:'comments/comments',
+      myComments:'posts/comments',
       posts:'posts/posts',
     })
-   },
+  },
   async fetch ({ store }){
     await store.dispatch('posts/loadPosts')
   },
-// async fetch ({ store }){
-//     await store.dispatch('comments/loadComments')
-//   },
   //  async fetch ({ store }){
-  //   await store.dispatch('users/loadUsers')
-    
+  //   await store.dispatch(' myComments/loadComments')
   // },
   methods: {
     ...mapActions({
-      addComment: 'comments/addComment',
-      loadPosts: 'posts/loadPosts'
+      addComment: 'posts/addComment',
+      loadPosts: 'posts/loadPosts',
     }),
     openPost(id){    
       this.currentPost = this.$store.getters['posts/postById'](id)
       this.$bvModal.show('modal-scoped')
     },
-    async onPublish({$axios}){
+    async onPublish(id){
       this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
       await this.addComment(this.comments)
       // this.currentPost.comments = await this.$axios.$get(`comments/${this.currentPost.id}`)
-      await this.loadPosts()
-      this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
-      this.comments.comment = ''
+      // await this.loadPosts()
+      //this.currentPost.comments = this.$store.getters['posts/comments'](id)
+
+      // this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
+      //this.comments.comment = ''
     },
+    hide(){
+      // this.comments.comment = ''
+      this.$bvModal.hide('modal-scoped')
+    }
   },
  
 }
 </script>
 
 <style scope lang="scss" >
+  
   .img-post{
     display: block;
     margin: 10px auto;
@@ -167,8 +168,14 @@ export default {
     background:#F8F8FF;
     border-radius: 5px;
     .icon{
+      padding-top: 10px;
       padding-left: 160px;
       max-width: 650px;
+       i img{
+        width: 29px;
+        height: 29px;
+        border-radius: 50%;
+  }
     }
     .comment-post{
       display: flex;
@@ -195,6 +202,11 @@ export default {
        .user-comment{
      white-space: pre-line;
      overflow-wrap: break-word;
+  }
+  .nuxt-link{
+    &:hover{
+      text-decoration: none;
+    }
   }
  
   

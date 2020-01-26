@@ -7,8 +7,7 @@
           <h3 class="user-name">
             user.name <i class="fa fa-cog" @click="openModalRedact"></i>
           </h3>
-          <!-- ***********************modal redact***********************8 -->
-
+          <!-- ***********************modal redact*********************** -->
           <b-modal id="modal-redact" scrollable title="Readact yuor profile">
             <p class="my-4" v-for="i in 20" :key="i"></p>
             <b-container class="container-in-modal-redact">
@@ -90,7 +89,6 @@
                     accept="image/jpeg, image/png, image/gif"
                   ></b-form-file>
                 </b-form-group>
-
                 <b-button
                   type="submit"
                   class="btn-block"
@@ -110,7 +108,7 @@
               </b-button>
             </template>
           </b-modal>
-          <!-- ***********************modal redact END***********************8 -->
+          <!-- ***********************modal redact END*********************** -->
 
           <p><strong>Age:</strong> user.age</p>
           <p><strong>City:</strong> user.city</p>
@@ -179,7 +177,6 @@
       <label class="comment-post-user"
         ><i class="icon fa fa-comments " aria-hidden="true"></i>5</label
       >
-      <!-- добавь фигурные скобки выше! -->
     </div>
     <!-- _____________________________________end of post____________________________________________ -->
 
@@ -226,7 +223,7 @@
         </div>
       </div>
       <template v-slot:modal-footer="{ ok, cancel, hide }">
-        <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+        <b-button size="sm" variant="outline-secondary" @click="hide">
           Close
         </b-button>
       </template>
@@ -267,13 +264,6 @@ export default {
       posts:'posts/posts',
     })
   },
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //тут нужно переделать запрос,когда научимся получить залогининого
-    //юзера,нужно запрос перенести в store и написать методы для
-    //для удаление юзера и для редактирования
-    // для редактирования полей я добавил дату form, далее нужно добавить асинхронные
-    // функции для пост или пут запроса на изменение данных залогининого юзера
-       //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   async asyncData ({ $axios }) {
     let users = {}
     try{
@@ -303,14 +293,18 @@ export default {
       this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
       await this.addComment(this.comments)
       this.comments.comment = ''
-      await this.loadPosts()
+      // await this.loadPosts()
       this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
 
     },
     async onPublishPost(){
       await this.publishPost(this.post)
       this.post.description = ''
-    }
+    },
+    hide(){
+        this.$bvModal.hide('modal-scoped')
+        this.comments.comment = ''
+      }
   }
  
 }
@@ -318,92 +312,91 @@ export default {
 
 <style scope lang="scss">
 // ********************************************user-info***************************************************
-    .user-info{
-        background:#F8F8FF;
-        margin-top: 20px;
-        height: 350px;
-        border-radius: 3px;
-    }
-    .avatar{
-      display: block;
-      margin: 5px auto;
-      width:250px;
-      height: 250px;
-      margin-top: 50px;
-        .avatar-card{
+  .user-info{
+    background:#F8F8FF;
+    margin-top: 20px;
+    height: 350px;
+    border-radius: 3px;
+  }
+  .avatar{
+    display: block;
+    margin: 5px auto;
+    width:250px;
+    height: 250px;
+    margin-top: 50px;
+      .avatar-card{
         display: block;
         width: 100%;
         height: 100%;
         border-radius: 125px;
-        }
-    }
-    .user-data{
-       margin-top: 70px;
-       padding-left:270px;
-       h3{
-           text-align: center;
-       }
-       .add-post{
-           border: none;
-           border-radius: 5px;
-           background: rgb(61, 61, 61);
-           color:rgb(235, 235, 213);
-           height: 30px;
-           width:100px;
-           display: block;
-           margin: 100px auto 0 auto;
-           &:hover{
-               background: #F8F8FF;
-               border: 1px solid rgb(61, 61, 61);
-               color:rgb(61, 61, 61);
-           }
-       }
-    }
+      }
+  }
+  .user-data{
+    margin-top: 70px;
+    padding-left:270px;
+      h3{
+        text-align: center;
+      }
+      .add-post{
+          border: none;
+          border-radius: 5px;
+          background: rgb(61, 61, 61);
+          color:rgb(235, 235, 213);
+          height: 30px;
+          width:100px;
+          display: block;
+          margin: 100px auto 0 auto;
+            &:hover{
+              background: #F8F8FF;
+              border: 1px solid rgb(61, 61, 61);
+              color:rgb(61, 61, 61);
+            }
+      }
+  }
      
     
     
     // ********************************************user-posts***************************************************
-    .img-post-user{
+  .img-post-user{
+    display: block;
+    margin: 10px auto;
+      .img-post-card-user{
         display: block;
-        margin: 10px auto;
-        .img-post-card-user{
-            display: block;
-            max-width: 100%;
-            max-height: 100%; 
-            margin: 0 auto;
-            &:hover{
-               	cursor: pointer;
-            }
-        }
-    }
-    .post-user{
-        display:inline-block;
-        margin: 0 -3px;
-        
-        .comment-post-user{
-           margin-bottom: -10px;
-           .icon{
-           margin-left: 150px;
-           }
-        }
-    }
-    .user-name {
-      font-size: 30px;
-      font-weight: bold;
+        max-width: 100%;
+        max-height: 100%; 
+        margin: 0 auto;
+          &:hover{
+            cursor: pointer;
+          }
+      }
+  }
+  .post-user{
+    display:inline-block;
+    margin: 0 -3px;
+      .comment-post-user{
+        margin-bottom: -10px;
+          .icon{
+              margin-left: 150px;
+          }
+      }
+  }
+  .user-name {
+    font-size: 30px;
+    font-weight: bold;
       i{
         &:hover{
           color:rgb(158, 149, 149);
         }
       }
-    }
-    .b-form-file{
-      margin-bottom: 10px;
-    }
+  }
+  .b-form-file{
+    margin-bottom: 10px;
+  }
     // .form-textarea-add-post{
     //     margin-bottom: 10px;
     //   }
-      .container-in-modal-redact{
-        margin-top: -20px;
-      }
+  .container-in-modal-redact{
+    margin-top: -20px;
+  }
  
 </style>

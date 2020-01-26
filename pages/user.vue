@@ -3,7 +3,6 @@
     <div class="row user-info">
       <div class="col-lg-9">
         <div class="user-data">
-          <!-- <h3 v-for="user of users" :key="user.id">{{ user.name }}</h3> -->
           <h3>{{ user.name }}</h3>
           <p><strong>Age:</strong> {{ user.age }}</p>
           <p><strong>City:</strong> {{ user.city }}</p>
@@ -74,7 +73,7 @@
         </div>
       </div>
       <template v-slot:modal-footer="{ ok, cancel, hide }">
-        <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+        <b-button size="sm" variant="outline-secondary" @click="hide">
           Close
         </b-button>
       </template>
@@ -84,54 +83,58 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-export default {
-  name: 'User',
-  data: () => ({
-    currentPost: null,
-    comments:{
-      userId: 2,
-      postId: 1,
-      comment:''
-    }
-  }),
-  computed:{
-    ...mapGetters ({
+  import {mapGetters, mapActions} from 'vuex'
+  export default {
+    name: 'User',
+    data: () => ({
+      currentPost: null,
+      comments:{
+        userId: 2,
+        postId: 1,
+        comment:''
+      }
+    }),
+    computed:{
+      ...mapGetters ({ 
       myComments:'comments/comments',
       posts:'posts/posts'
-    })
-   },
-  async asyncData ({ $axios, params }) {
-    let user = {}
-    try{
-      user = await $axios.$get(`/users/${params.id}`, {
-        params: {
-          _embed: 'posts',
-        }  
       })
-    } catch (e) {
-            console.log(e)
-    }
-    return { user }
+    },
+    async asyncData ({ $axios, params }) {
+      let user = {}
+      try{
+        user = await $axios.$get(`/users/${params.id}`, {
+          params: {
+          _embed: 'posts',
+          }  
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      return { user }
     },
     methods: {
-    ...mapActions({
-      addComment: 'comments/addComment',
-      loadPosts: 'posts/loadPosts'
-    }),
-    openPost(id){
-      this.currentPost = this.$store.getters['posts/postById'](id)
-      this.$bvModal.show('modal-scoped')
-    },
-    async onPublish({$axios}){
-      this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
-      await this.addComment(this.comments)
-      this.comments.comment = ''
-      await this.loadPosts()
-      this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
-   }
- }
-}
+      ...mapActions({
+        addComment: 'posts/addComment',
+        loadPosts: 'posts/loadPosts'
+      }),
+      openPost(id){
+        this.currentPost = this.$store.getters['posts/postById'](id)
+        this.$bvModal.show('modal-scoped')
+      },
+      async onPublish({$axios}){
+        this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+        await this.addComment(this.comments)
+        this.comments.comment = ''
+        await this.loadPosts()
+        this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
+      },
+      hide(){
+        this.$bvModal.hide('modal-scoped')
+        this.comments.comment = ''
+      }
+    }  
+  }
 </script>
 
 <style scope lang="scss">

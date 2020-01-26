@@ -43,26 +43,27 @@
 </template>
 
 <script>
-    export default {
-        name: 'Login',
-        layout: 'empty',
-        data: () => ({
-          form: {
-            email: '',
-            password: ''
-          }
-        }),
-        methods: {
-          async onSubmit () {
-            try{
-            await this.$auth.loginWith('local', { data: this.form })
-            } catch(e){
-              this.$bvToast.show('login')
+  export default {
+    name: 'Login',
+    layout: 'empty',
+    data: () => ({
+      form: {
+      email: '',
+      password: ''
+      }
+    }),
+    methods: {
+      async onSubmit () {
+        try{
+          await this.$auth.loginWith('local', { data: this.form })
+          } 
+          catch(e){
+          this.$bvToast.show('login')
               console.log(e)
-            }
           }
-        }
+      }
     }
+  }
 </script>
 
 <style scoped lang="scss">
