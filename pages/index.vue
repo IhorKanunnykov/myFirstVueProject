@@ -10,7 +10,7 @@
               :to="{ name: 'user', params: { id: post.user.id } }"
               exact
             >
-              <img src="../assets/img/login.jpg" />
+              <img src="../assets/img/user.png" />
             </nuxt-link>
           </i>
           <nuxt-link
@@ -28,7 +28,10 @@
           <button class="button-post" @click.prevent="openPost(post.id)">
             Open post!
           </button>
-          <span> <i class="fa fa-comments" aria-hidden="true"></i> 5</span>
+          <span style="color:grey;">
+            <i class="fa fa-comments" aria-hidden="true"></i
+            >{{ post.comments.length }}</span
+          >
           <!-- суда количество комментов в посте -->
         </div>
       </div>
@@ -38,11 +41,13 @@
     <!-- ************************************modal******************************************** -->
 
     <b-modal default id="modal-scoped" size="xl" title="View post">
-      <div class="row">
-        <div class="col-lg-7 modal-card">
+      <div class="row row-in-modal">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 modal-card">
           <img class="img-in-modal" src="../assets/img/login.jpg" alt="" />
         </div>
-        <div class="col-lg-5 ">
+        <div
+          class="col-xl-5 col-lg-5 col-md-12 col-sm-12 case-for-modal-comments "
+        >
           <div class="modal-comments">
             <div v-if="currentPost">
               <div
@@ -50,13 +55,10 @@
                 v-for="comment in currentPost.comments"
                 :key="comment.id"
               >
-                {{ comment.userId }}
+                <!-- {{ comment.userId }} -->
                 {{ comment.comment }}
               </div>
             </div>
-            <!-- <div v-for="usercom of users.comments" :key="usercom.id">
-                    {{ usercom.comment }}
-                  </div> -->
           </div>
           <!-- __________________________________________________ -->
           <div class="form-comment">
@@ -68,7 +70,7 @@
                 v-model="comments.comment"
                 class="form-textarea"
                 id="textarea-no-resize"
-                placeholder="Fixed height textarea"
+                placeholder="Write your comment here!"
                 rows="2"
                 no-resize
               ></b-form-textarea>
@@ -117,9 +119,6 @@ export default {
   async fetch ({ store }){
     await store.dispatch('posts/loadPosts')
   },
-  //  async fetch ({ store }){
-  //   await store.dispatch(' myComments/loadComments')
-  // },
   methods: {
     ...mapActions({
       addComment: 'posts/addComment',
@@ -130,17 +129,12 @@ export default {
       this.$bvModal.show('modal-scoped')
     },
     async onPublish(id){
-      this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+      this.comments.postId = this.currentPost.id
       await this.addComment(this.comments)
-      // this.currentPost.comments = await this.$axios.$get(`comments/${this.currentPost.id}`)
-      // await this.loadPosts()
-      //this.currentPost.comments = this.$store.getters['posts/comments'](id)
-
-      // this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
-      //this.comments.comment = ''
+      this.comments.comment = ''
     },
     hide(){
-      // this.comments.comment = ''
+      this.comments.comment = ''
       this.$bvModal.hide('modal-scoped')
     }
   },
@@ -200,16 +194,43 @@ export default {
            }
        }
        .user-comment{
-     white-space: pre-line;
-     overflow-wrap: break-word;
+        white-space: pre-line;
+        overflow-wrap: break-word;
   }
   .nuxt-link{
+    color: rgb(77, 77, 77);
     &:hover{
       text-decoration: none;
+      color: rgb(94, 50, 1);
     }
   }
  
-  
+  @media (min-width: 768px) and (max-width: 1200px){
+    .post{
+      .icon{
+        padding-left: 95px;
+      }
+    }
+    .button-post{
+      margin: 10px 93px;
+    }
+    .comment-post span{
+      margin-right: 55px;
+    }
+  }
+  @media (min-width: 576px) and (max-width: 767.99px){
+    .post{
+      .icon{
+        padding-left: 8px;
+      }
+    }
+    .button-post{
+      margin: 10px 5px;
+    }
+    .comment-post span{
+      margin-right: 7px;
+    }
+  }  
 </style>
 
 

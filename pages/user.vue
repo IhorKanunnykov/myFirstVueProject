@@ -1,43 +1,45 @@
 <template>
   <div class="container">
     <div class="row user-info">
-      <div class="col-lg-9">
+      <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6">
         <div class="user-data">
           <h3>{{ user.name }}</h3>
           <p><strong>Age:</strong> {{ user.age }}</p>
           <p><strong>City:</strong> {{ user.city }}</p>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6">
         <div class="avatar">
-          <img class="avatar-card" src="../assets/img/1234.jpg" alt="img" />
+          <img class="avatar-card" src="../assets/img/user.png" alt="img" />
         </div>
       </div>
     </div>
     <!-- ___________________________________________________________________________________ -->
-    <div class="col-lg-4 post-user" v-for="post of user.posts" :key="post.id">
+    <div
+      class="col-xl-4 col-lg-4 col-md-6 col-sm-12 post-user"
+      v-for="post of user.posts"
+      :key="post.id"
+    >
       <div class="img-post-user">
         <img
           @click="openPost(post.id)"
           class="img-post-card-user"
-          src="../assets/img/1234.jpg"
+          src="../assets/img/login.jpg"
           alt="img"
         />
       </div>
       <label class="comment-post-user"
-        ><i class="icon fa fa-comments " aria-hidden="true"></i>5
+        ><i class="icon fa fa-comments " aria-hidden="true"></i>
       </label>
-      <!-- добавь фигурные скобки выше! -->
     </div>
     <!-- *************************************modal******************************************** -->
     <b-modal default id="modal-scoped" size="xl" title="View post">
       <div class="row">
-        <div class="col-lg-7 modal-card">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 modal-card">
           <img class="img-in-modal" src="../assets/img/1234.jpg" alt="" />
         </div>
-        <div class="col-lg-5 ">
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 ">
           <div class="modal-comments">
-            тут вопросик об отрисовке комментария
             <div v-if="currentPost">
               <div
                 class="user-comment"
@@ -55,7 +57,7 @@
                 v-model="comments.comment"
                 class="form-textarea"
                 id="textarea-no-resize"
-                placeholder="Fixed height textarea"
+                placeholder="Write your comment here!"
                 rows="2"
                 no-resize
               ></b-form-textarea>
@@ -73,7 +75,7 @@
         </div>
       </div>
       <template v-slot:modal-footer="{ ok, cancel, hide }">
-        <b-button size="sm" variant="outline-secondary" @click="hide">
+        <b-button size="sm" variant="outline-secondary" @click="hide('forget')">
           Close
         </b-button>
       </template>
@@ -106,8 +108,10 @@
         user = await $axios.$get(`/users/${params.id}`, {
           params: {
           _embed: 'posts',
-          }  
+          }
+            
         })
+        
       } catch (e) {
         console.log(e)
       }
@@ -123,14 +127,8 @@
         this.$bvModal.show('modal-scoped')
       },
       async onPublish({$axios}){
-        this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
+        this.comments.postId = this.currentPost.id
         await this.addComment(this.comments)
-        this.comments.comment = ''
-        await this.loadPosts()
-        this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
-      },
-      hide(){
-        this.$bvModal.hide('modal-scoped')
         this.comments.comment = ''
       }
     }  

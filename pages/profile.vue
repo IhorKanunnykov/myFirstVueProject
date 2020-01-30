@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row user-info">
-      <div class="col-lg-9">
+      <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6">
         <div class="user-data">
           <!-- <h3 v-for="user of users" :key="user.id">{{ user.name }}</h3> -->
           <h3 class="user-name">
@@ -158,19 +158,19 @@
           <!-- ***********************end of modal addPost***************** -->
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6">
         <div class="avatar">
-          <img class="avatar-card" src="../assets/img/1234.jpg" alt="img" />
+          <img class="avatar-card" src="../assets/img/user.png" alt="img" />
         </div>
       </div>
     </div>
     <!-- _____________________________________post____________________________________________ -->
-    <div class="col-lg-4 post-user">
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 post-user">
       <div class="img-post-user">
         <img
           @click="openPost"
           class="img-post-card-user"
-          src="../assets/img/1234.jpg"
+          src="../assets/img/login.jpg"
           alt="img"
         />
       </div>
@@ -183,10 +183,10 @@
     <!-- *************************************modal******************************************** -->
     <b-modal default id="modal-scoped" size="xl" title="View post">
       <div class="row">
-        <div class="col-lg-7 modal-card">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 modal-card">
           <img class="img-in-modal" src="../assets/img/1234.jpg" alt="" />
         </div>
-        <div class="col-lg-5 ">
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 ">
           <div class="modal-comments">
             <div v-if="currentPost">
               <div
@@ -205,7 +205,7 @@
                 v-model="comments.comment"
                 class="form-textarea-add-post"
                 id="textarea-no-resize"
-                placeholder="Fixed height textarea"
+                placeholder="Write your comment here!"
                 rows="2"
                 no-resize
               ></b-form-textarea>
@@ -254,7 +254,7 @@ export default {
     },
     comments:{
       userId: 2,
-      postId: 1,
+      postId: 2,
       comment:''
     }
   }),
@@ -293,9 +293,7 @@ export default {
       this.comments.postId = this.currentPost.id//для добавления коммента в конкретный пост
       await this.addComment(this.comments)
       this.comments.comment = ''
-      // await this.loadPosts()
       this.currentPost = this.$store.getters['posts/postById'](this.currentPost.id)
-
     },
     async onPublishPost(){
       await this.publishPost(this.post)
@@ -306,7 +304,6 @@ export default {
         this.comments.comment = ''
       }
   }
- 
 }
 </script>
 
@@ -353,9 +350,6 @@ export default {
             }
       }
   }
-     
-    
-    
     // ********************************************user-posts***************************************************
   .img-post-user{
     display: block;
@@ -391,12 +385,29 @@ export default {
   }
   .b-form-file{
     margin-bottom: 10px;
-  }
-    // .form-textarea-add-post{
-    //     margin-bottom: 10px;
-    //   }
+  }  
   .container-in-modal-redact{
     margin-top: -20px;
   }
- 
+ @media (min-width: 768px) and (max-width: 1200px){
+  .user-data{
+    padding-left:200px;
+  }
+  .avatar{
+    .avatar-card{
+      margin-right: 100px;
+    }
+  }
+}
+@media (min-width: 576px) and (max-width: 767.99px){
+  .user-data{
+    padding-left:0;
+    p{
+     margin-left: 35px;
+    }
+  } 
+    .post-user .comment-post-user .icon {
+    margin-left: 230px;
+  }
+}
 </style>

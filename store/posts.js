@@ -51,7 +51,7 @@ export const mutations = {
         state.posts.push(post)
     },
     addComment(state, comment) {
-        const postIndex = state.posts.findIndex(p => p.id === comment.postId)
-        state.posts[postIndex].comments.push(comment)
+        const postIndex = state.posts.findIndex(p => p.id === comment.data.postId)
+        state.posts[postIndex].comments.push(comment.data)
     }
 }

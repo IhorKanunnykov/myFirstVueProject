@@ -44,6 +44,24 @@
       "city": "Dnepr",
       "age": "43",
       "id": 5
+    },
+    {
+      "email": "vasya@gmail.com",
+      "password": "$2a$10$bWpVg8Hdl6/vdnsPeYERqu8R1ezZFEIzGTrtvZCccgT/qJzxVCmDm",
+      "name": "Vasya Pupkin",
+      "phone": "23123123",
+      "city": "Kharkiv",
+      "age": "24",
+      "id": 6
+    },
+    {
+      "email": "pet@gmail.com",
+      "password": "$2a$10$qKR8SeAhPzLT/40jbtUx2OlFBUTb/Aw8eF.R1f2cAaf1MkGSIZbLW",
+      "name": "Petro",
+      "phone": "13131",
+      "city": "fefe",
+      "age": "33",
+      "id": 7
     }
   ],
   "posts": [
@@ -78,32 +96,20 @@
     {
       "userId": 1,
       "img": null,
-      "description": "fgh",
+      "description": "1",
       "id": 5
     },
     {
       "userId": 1,
       "img": null,
-      "description": "from ihor",
+      "description": "2",
       "id": 6
     },
     {
       "userId": 1,
       "img": null,
-      "description": "huh",
+      "description": "3",
       "id": 7
-    },
-    {
-      "userId": 1,
-      "img": null,
-      "description": "123",
-      "id": 8
-    },
-    {
-      "userId": 1,
-      "img": null,
-      "description": "ewewe",
-      "id": 9
     }
   ],
   "comments": [
@@ -115,141 +121,87 @@
     },
     {
       "userId": 2,
-      "postId": 2,
-      "comment": "еще комментарий\n",
+      "postId": 1,
+      "comment": "first",
       "id": 2
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "c",
+      "comment": "1",
       "id": 3
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "d",
+      "comment": "2",
       "id": 4
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "d",
+      "comment": "3",
       "id": 5
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "",
+      "comment": "4",
       "id": 6
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "dg",
+      "comment": "5",
       "id": 7
     },
     {
       "userId": 2,
-      "postId": 1,
-      "comment": "dfvdf",
+      "postId": 2,
+      "comment": "first",
       "id": 8
     },
     {
       "userId": 2,
-      "postId": 1,
-      "comment": "d",
+      "postId": 5,
+      "comment": "первый комментарий второго поста Игоря",
       "id": 9
     },
     {
       "userId": 2,
-      "postId": 1,
-      "comment": "sdsd",
+      "postId": 5,
+      "comment": "второй",
       "id": 10
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "ssss",
+      "comment": "6",
       "id": 11
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "1",
+      "comment": "7",
       "id": 12
     },
     {
       "userId": 2,
-      "postId": 1,
-      "comment": "gvfg",
+      "postId": 3,
+      "comment": "1",
       "id": 13
     },
     {
       "userId": 2,
-      "postId": 1,
-      "comment": "s",
+      "postId": 2,
+      "comment": "second",
       "id": 14
     },
     {
       "userId": 2,
       "postId": 1,
-      "comment": "dsd",
+      "comment": "8",
       "id": 15
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "ds",
-      "id": 16
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "d",
-      "id": 17
-    },
-    {
-      "userId": 2,
-      "postId": 2,
-      "comment": "sf",
-      "id": 18
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "s",
-      "id": 19
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "sf",
-      "id": 20
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "c",
-      "id": 21
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "e",
-      "id": 22
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "fdf",
-      "id": 23
-    },
-    {
-      "userId": 2,
-      "postId": 1,
-      "comment": "d",
-      "id": 24
     }
   ]
 }

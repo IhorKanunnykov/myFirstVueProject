@@ -5,7 +5,7 @@
   >
     <b-container class="d-flex justify-content-center">
       <b-form @submit.prevent="onSubmit" class="auth-form">
-        <h3 class="text-center border-of-autorization">Login</h3>
+        <h3 class="text-center border-of-autorization">Login to Progect A</h3>
         <b-form-group label="Email address:" label-for="email">
           <b-form-input
             id="email"

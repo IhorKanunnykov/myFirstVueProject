@@ -46,3 +46,58 @@ body{
   margin-top:2px;
 }  
 // ________________________________________modal window  end_____________________________________
+@media (min-width: 992px) and (max-width: 1200px){
+  .modal-comments{
+    margin: 0 0 8px -20px;
+    overflow-y: auto;
+    height: 170px;
+    
+  }
+}
+@media (min-width: 960px) and (max-width: 991.98px){
+  .modal-card{
+    padding: 0px;
+    margin-left: 15px;
+    .img-in-modal{
+      width: 100%;
+      
+    }
+  }
+  .modal-comments{
+    margin: 0;
+    overflow-y: auto;
+    height: 170px;
+  }
+  
+  .form-comment{
+    width: 100%;
+    margin: 0;
+    margin-left: 12px;
+  }
+  
+}
+@media (min-width: 576px) and (max-width: 959.98px){
+  .modal-card{
+    padding: 0px;
+    margin-left: 15px;
+    .img-in-modal{
+      width: 100%;
+      
+    }
+  }
+  .case-for-modal-comments{
+    padding-top: 17px;
+    .modal-comments{
+      margin: 0;
+      overflow-y: auto;
+      height: 170px;
+    }
+  }
+  
+  
+  .form-comment{
+    width: 100%;
+    margin: 0;
+    margin-left: 12px;
+  }
+}
